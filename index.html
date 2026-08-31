@@ -1,0 +1,960 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Akash A — Cloud Support Engineer</title>
+<meta name="description" content="Akash A — Cloud Support Engineer specializing in AWS, Linux administration, and networking infrastructure.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0a0e17;
+    --bg-elevated:#0d1220;
+    --surface:#121a2b;
+    --surface-2:#151f34;
+    --border:rgba(255,255,255,0.08);
+    --border-strong:rgba(255,255,255,0.14);
+    --text:#eaeef5;
+    --text-dim:#8d97ac;
+    --text-faint:#5c6580;
+    --accent:#33d6c0;
+    --accent-dim:rgba(51,214,192,0.14);
+    --amber:#ffb454;
+    --amber-dim:rgba(255,180,84,0.14);
+    --radius:10px;
+    --maxw:1120px;
+  }
+
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  @media (prefers-reduced-motion: reduce){
+    html{scroll-behavior:auto;}
+    *{animation-duration:0.001ms !important; animation-iteration-count:1 !important; transition-duration:0.001ms !important;}
+  }
+
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'Inter', sans-serif;
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+    overflow-x:hidden;
+  }
+
+  body::before{
+    content:"";
+    position:fixed;
+    inset:0;
+    background-image:
+      radial-gradient(circle at 15% 8%, rgba(51,214,192,0.07), transparent 45%),
+      radial-gradient(circle at 85% 15%, rgba(255,180,84,0.05), transparent 40%);
+    pointer-events:none;
+    z-index:0;
+  }
+
+  h1,h2,h3,h4{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:600;
+    line-height:1.15;
+    letter-spacing:-0.01em;
+  }
+
+  a{color:inherit; text-decoration:none;}
+  ul{list-style:none;}
+  img{max-width:100%; display:block;}
+
+  .mono{font-family:'IBM Plex Mono', monospace;}
+
+  .wrap{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+  }
+
+  section{position:relative; z-index:1;}
+
+  /* ---------- Nav ---------- */
+  header{
+    position:fixed;
+    top:0; left:0; right:0;
+    z-index:50;
+    background:rgba(10,14,23,0.82);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--border);
+  }
+  .nav-inner{
+    max-width:var(--maxw);
+    margin:0 auto;
+    padding:0 32px;
+    height:68px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .logo{
+    font-family:'Space Grotesk', sans-serif;
+    font-weight:700;
+    font-size:1.05rem;
+    letter-spacing:-0.01em;
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .logo .dot{
+    width:8px; height:8px;
+    border-radius:50%;
+    background:var(--accent);
+    box-shadow:0 0 10px 2px rgba(51,214,192,0.5);
+  }
+  nav.links{
+    display:flex;
+    gap:34px;
+  }
+  nav.links a{
+    font-size:0.92rem;
+    color:var(--text-dim);
+    transition:color 0.2s ease;
+    position:relative;
+  }
+  nav.links a:hover{color:var(--text);}
+  .nav-cta{
+    display:flex;
+    align-items:center;
+    gap:14px;
+  }
+  .btn{
+    display:inline-flex;
+    align-items:center;
+    gap:8px;
+    padding:10px 20px;
+    border-radius:8px;
+    font-size:0.9rem;
+    font-weight:500;
+    font-family:'Inter', sans-serif;
+    transition:all 0.2s ease;
+    border:1px solid transparent;
+    cursor:pointer;
+    white-space:nowrap;
+  }
+  .btn-primary{
+    background:var(--accent);
+    color:#06110f;
+    font-weight:600;
+  }
+  .btn-primary:hover{
+    background:#4fe3cf;
+    transform:translateY(-1px);
+  }
+  .btn-outline{
+    border-color:var(--border-strong);
+    color:var(--text);
+  }
+  .btn-outline:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+  }
+  .btn-sm{padding:8px 14px; font-size:0.85rem;}
+
+  .nav-toggle{
+    display:none;
+    flex-direction:column;
+    gap:5px;
+    background:none;
+    border:none;
+    cursor:pointer;
+    padding:8px;
+  }
+  .nav-toggle span{
+    width:22px; height:2px;
+    background:var(--text);
+    display:block;
+  }
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding:150px 0 90px;
+    display:grid;
+    grid-template-columns:1.05fr 0.95fr;
+    gap:40px;
+    align-items:center;
+  }
+  .kicker{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.82rem;
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    gap:10px;
+    margin-bottom:22px;
+  }
+  .kicker .bar{
+    width:28px; height:1px;
+    background:var(--accent);
+  }
+  .hero h1{
+    font-size:clamp(2.4rem, 4.6vw, 3.6rem);
+    margin-bottom:18px;
+  }
+  .hero h1 span.role{
+    display:block;
+    color:var(--text-dim);
+    font-size:0.44em;
+    font-weight:500;
+    margin-top:14px;
+    letter-spacing:0.01em;
+  }
+  .hero p.lede{
+    font-size:1.05rem;
+    color:var(--text-dim);
+    max-width:52ch;
+    margin-bottom:32px;
+  }
+  .hero-actions{
+    display:flex;
+    flex-wrap:wrap;
+    gap:12px;
+    margin-bottom:44px;
+  }
+  .hero-stats{
+    display:grid;
+    grid-template-columns:repeat(3, auto);
+    gap:36px;
+  }
+  .stat .num{
+    font-family:'Space Grotesk', sans-serif;
+    font-size:1.7rem;
+    font-weight:700;
+    color:var(--text);
+  }
+  .stat .label{
+    font-size:0.82rem;
+    color:var(--text-faint);
+    margin-top:2px;
+  }
+
+  /* hero diagram */
+  .diagram-card{
+    background:linear-gradient(180deg, var(--surface), var(--bg-elevated));
+    border:1px solid var(--border);
+    border-radius:16px;
+    padding:22px;
+    position:relative;
+  }
+  .diagram-card .cap{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.75rem;
+    color:var(--text-faint);
+    margin-bottom:10px;
+    display:flex;
+    justify-content:space-between;
+  }
+  .diagram-card svg{width:100%; height:auto; display:block;}
+
+  /* ---------- Section shell ---------- */
+  .section{
+    padding:100px 0;
+    border-top:1px solid var(--border);
+  }
+  .section-head{
+    display:flex;
+    align-items:flex-end;
+    justify-content:space-between;
+    gap:24px;
+    margin-bottom:52px;
+    flex-wrap:wrap;
+  }
+  .section-head h2{
+    font-size:clamp(1.7rem, 3vw, 2.2rem);
+  }
+  .section-head .desc{
+    color:var(--text-dim);
+    max-width:44ch;
+    font-size:0.98rem;
+  }
+  .section-tag{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--accent);
+    margin-bottom:10px;
+    display:block;
+  }
+
+  /* ---------- About ---------- */
+  .about-grid{
+    display:grid;
+    grid-template-columns:1.3fr 0.7fr;
+    gap:60px;
+  }
+  .about-grid p{
+    color:var(--text-dim);
+    font-size:1.02rem;
+    margin-bottom:18px;
+    max-width:62ch;
+  }
+  .facts{
+    border-left:1px solid var(--border);
+    padding-left:28px;
+    display:flex;
+    flex-direction:column;
+    gap:20px;
+  }
+  .fact .k{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.76rem;
+    color:var(--text-faint);
+    margin-bottom:4px;
+  }
+  .fact .v{font-size:0.98rem; color:var(--text);}
+
+  /* ---------- Skills ---------- */
+  .skills-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:1px;
+    background:var(--border);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .skill-block{
+    background:var(--bg-elevated);
+    padding:30px 32px;
+  }
+  .skill-block h3{
+    font-size:1.02rem;
+    margin-bottom:16px;
+    display:flex;
+    align-items:center;
+    gap:10px;
+  }
+  .skill-block h3 .ic{
+    width:8px; height:8px;
+    background:var(--accent);
+    border-radius:2px;
+    display:inline-block;
+  }
+  .chip-row{
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .chip{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--text-dim);
+    border:1px solid var(--border-strong);
+    padding:6px 12px;
+    border-radius:20px;
+    background:rgba(255,255,255,0.02);
+  }
+
+  /* ---------- Experience / Projects ---------- */
+  .project{
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:34px;
+    background:var(--surface);
+    margin-bottom:20px;
+    display:grid;
+    grid-template-columns:220px 1fr;
+    gap:34px;
+  }
+  .project:last-child{margin-bottom:0;}
+  .project .p-meta{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.78rem;
+    color:var(--amber);
+  }
+  .project h3{
+    font-size:1.2rem;
+    margin:8px 0 0;
+  }
+  .project ul{
+    margin-top:16px;
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+  }
+  .project ul li{
+    color:var(--text-dim);
+    font-size:0.95rem;
+    padding-left:18px;
+    position:relative;
+  }
+  .project ul li::before{
+    content:"";
+    position:absolute;
+    left:0; top:9px;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:var(--accent);
+  }
+  .project .tags{
+    margin-top:18px;
+    display:flex;
+    flex-wrap:wrap;
+    gap:8px;
+  }
+  .project .tags span{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.74rem;
+    color:var(--accent);
+    background:var(--accent-dim);
+    padding:5px 10px;
+    border-radius:6px;
+  }
+
+  /* ---------- Education (timeline) ---------- */
+  .timeline{
+    position:relative;
+    padding-left:36px;
+  }
+  .timeline::before{
+    content:"";
+    position:absolute;
+    left:5px; top:6px; bottom:6px;
+    width:1px;
+    background:var(--border-strong);
+  }
+  .t-item{
+    position:relative;
+    padding-bottom:8px;
+  }
+  .t-item::before{
+    content:"";
+    position:absolute;
+    left:-36px; top:6px;
+    width:11px; height:11px;
+    border-radius:50%;
+    background:var(--bg);
+    border:2px solid var(--accent);
+  }
+  .t-item .yr{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--text-faint);
+    margin-bottom:6px;
+  }
+  .t-item h3{font-size:1.15rem; margin-bottom:6px;}
+  .t-item .school{color:var(--text-dim); font-size:0.95rem; margin-bottom:10px;}
+  .t-item .cgpa{
+    display:inline-block;
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--accent);
+    border:1px solid var(--border-strong);
+    padding:4px 10px;
+    border-radius:6px;
+  }
+
+  /* ---------- Certifications ---------- */
+  .cert-grid{
+    display:grid;
+    grid-template-columns:repeat(2, 1fr);
+    gap:16px;
+  }
+  .cert{
+    border:1px solid var(--border);
+    border-radius:12px;
+    padding:24px 26px;
+    background:var(--surface);
+    display:flex;
+    gap:16px;
+    align-items:flex-start;
+  }
+  .cert .badge{
+    width:38px; height:38px;
+    border-radius:8px;
+    background:var(--accent-dim);
+    color:var(--accent);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    flex-shrink:0;
+    font-size:1.1rem;
+  }
+  .cert.pending .badge{
+    background:var(--amber-dim);
+    color:var(--amber);
+  }
+  .cert h4{font-size:1rem; margin-bottom:4px;}
+  .cert .org{color:var(--text-faint); font-size:0.85rem; margin-bottom:8px;}
+  .status-pill{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.72rem;
+    padding:3px 9px;
+    border-radius:20px;
+    display:inline-block;
+  }
+  .status-pill.done{background:var(--accent-dim); color:var(--accent);}
+  .status-pill.progress{background:var(--amber-dim); color:var(--amber);}
+
+  /* ---------- Contact ---------- */
+  .contact-wrap{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:60px;
+    align-items:center;
+  }
+  .contact-wrap h2{
+    font-size:clamp(1.9rem, 4vw, 2.6rem);
+    margin-bottom:18px;
+  }
+  .contact-wrap p{
+    color:var(--text-dim);
+    max-width:46ch;
+    margin-bottom:30px;
+  }
+  .contact-list{
+    display:flex;
+    flex-direction:column;
+    gap:0;
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+  }
+  .contact-row{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    padding:20px 26px;
+    border-bottom:1px solid var(--border);
+    transition:background 0.2s ease;
+  }
+  .contact-row:last-child{border-bottom:none;}
+  .contact-row:hover{background:var(--surface);}
+  .contact-row .k{
+    font-family:'IBM Plex Mono', monospace;
+    font-size:0.8rem;
+    color:var(--text-faint);
+  }
+  .contact-row .v{font-size:0.98rem; color:var(--text);}
+  .contact-row svg{color:var(--accent); flex-shrink:0;}
+
+  footer{
+    border-top:1px solid var(--border);
+    padding:30px 0;
+  }
+  .footer-inner{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    flex-wrap:wrap;
+    gap:12px;
+    font-size:0.85rem;
+    color:var(--text-faint);
+  }
+  .footer-inner a{color:var(--text-dim);}
+  .footer-inner a:hover{color:var(--accent);}
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 900px){
+    .hero{grid-template-columns:1fr; padding-top:130px;}
+    .about-grid{grid-template-columns:1fr; gap:36px;}
+    .facts{border-left:none; border-top:1px solid var(--border); padding-left:0; padding-top:24px; flex-direction:row; flex-wrap:wrap; gap:28px;}
+    .skills-grid{grid-template-columns:1fr;}
+    .project{grid-template-columns:1fr; gap:14px;}
+    .cert-grid{grid-template-columns:1fr;}
+    .contact-wrap{grid-template-columns:1fr; gap:36px;}
+  }
+
+  @media (max-width: 720px){
+    nav.links{
+      position:fixed;
+      top:68px; left:0; right:0;
+      background:var(--bg-elevated);
+      border-bottom:1px solid var(--border);
+      flex-direction:column;
+      gap:0;
+      max-height:0;
+      overflow:hidden;
+      transition:max-height 0.25s ease;
+    }
+    nav.links.open{max-height:400px;}
+    nav.links a{
+      padding:16px 32px;
+      border-bottom:1px solid var(--border);
+      width:100%;
+    }
+    .nav-cta .btn-outline{display:none;}
+    .nav-toggle{display:flex;}
+    .wrap{padding:0 22px;}
+    .nav-inner{padding:0 22px;}
+    .hero{padding-top:120px; padding-bottom:60px;}
+    .hero-stats{grid-template-columns:repeat(3, auto); gap:20px;}
+    .section{padding:70px 0;}
+    .section-head{margin-bottom:36px;}
+  }
+
+  @media (max-width: 480px){
+    .hero-actions{flex-direction:column; align-items:stretch;}
+    .hero-stats{grid-template-columns:1fr 1fr; row-gap:24px;}
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="nav-inner">
+    <a href="#top" class="logo"><span class="dot"></span>Akash A.</a>
+    <nav class="links" id="navLinks">
+      <a href="#about">About</a>
+      <a href="#skills">Skills</a>
+      <a href="#projects">Projects</a>
+      <a href="#education">Education</a>
+      <a href="#certifications">Certifications</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <div class="nav-cta">
+      <a href="Akash_A_Resume_ATS.pdf" class="btn btn-outline btn-sm" download>Resume</a>
+      <a href="#contact" class="btn btn-primary btn-sm">Get in touch</a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </div>
+</header>
+
+<main id="top">
+
+  <!-- HERO -->
+  <section class="hero wrap">
+    <div>
+      <div class="kicker"><span class="bar"></span>Delhi, India · Immediate joiner</div>
+      <h1>Building reliable cloud<br>infrastructure, one region<br>at a time.<span class="role">Akash A — Cloud Support Engineer</span></h1>
+      <p class="lede">ECE graduate with hands-on experience deploying and securing AWS environments — from multi-tier web architectures to VPC networking and IAM policy design. Currently completing the AWS Solutions Architect – Associate certification.</p>
+      <div class="hero-actions">
+        <a href="#projects" class="btn btn-primary">View my work</a>
+        <a href="Akash_A_Resume_ATS.pdf" class="btn btn-outline" download>Download resume</a>
+        <a href="https://www.linkedin.com/in/akash-a-95bb6b292" target="_blank" rel="noopener" class="btn btn-outline">LinkedIn ↗</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat"><div class="num">3</div><div class="label">Cloud projects built</div></div>
+        <div class="stat"><div class="num">8.3</div><div class="label">CGPA / 10</div></div>
+        <div class="stat"><div class="num">SAA-C03</div><div class="label">Cert in progress</div></div>
+      </div>
+    </div>
+
+    <div class="diagram-card">
+      <div class="cap"><span>architecture · 3-tier-vpc.yaml</span><span>ap-south-1</span></div>
+      <svg viewBox="0 0 460 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <!-- VPC boundary -->
+        <rect x="20" y="20" width="420" height="360" rx="12" stroke="rgba(255,255,255,0.14)" stroke-dasharray="4 4"/>
+        <text x="34" y="42" fill="#5c6580" font-family="IBM Plex Mono, monospace" font-size="11">VPC · 10.0.0.0/16</text>
+
+        <!-- Public subnet -->
+        <rect x="40" y="58" width="180" height="130" rx="8" fill="rgba(51,214,192,0.05)" stroke="rgba(51,214,192,0.3)"/>
+        <text x="52" y="76" fill="#33d6c0" font-family="IBM Plex Mono, monospace" font-size="10">public subnet</text>
+        <rect x="56" y="90" width="70" height="42" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="70" y="115" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="10">ALB</text>
+        <rect x="140" y="90" width="70" height="42" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="150" y="115" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="9.5">EC2 web</text>
+        <rect x="98" y="150" width="70" height="30" rx="6" fill="#151f34" stroke="rgba(255,180,84,0.4)"/>
+        <text x="113" y="169" fill="#ffb454" font-family="IBM Plex Mono, monospace" font-size="9.5">NAT GW</text>
+
+        <!-- Private subnet -->
+        <rect x="240" y="58" width="180" height="130" rx="8" fill="rgba(255,180,84,0.05)" stroke="rgba(255,180,84,0.3)"/>
+        <text x="252" y="76" fill="#ffb454" font-family="IBM Plex Mono, monospace" font-size="10">private subnet</text>
+        <rect x="256" y="90" width="70" height="42" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="266" y="110" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="9.5">EC2 app</text>
+        <rect x="340" y="90" width="60" height="42" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="350" y="110" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="9.5">RDS</text>
+        <text x="348" y="123" fill="#5c6580" font-family="IBM Plex Mono, monospace" font-size="8">multi-az</text>
+
+        <!-- S3 / CloudWatch row -->
+        <rect x="56" y="220" width="90" height="40" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="72" y="244" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="10">S3</text>
+        <rect x="170" y="220" width="110" height="40" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="182" y="244" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="9.5">CloudWatch</text>
+        <rect x="300" y="220" width="100" height="40" rx="6" fill="#151f34" stroke="rgba(255,255,255,0.14)"/>
+        <text x="316" y="244" fill="#eaeef5" font-family="IBM Plex Mono, monospace" font-size="9.5">IAM</text>
+
+        <!-- connectors -->
+        <path d="M126 111 H140" stroke="rgba(51,214,192,0.5)" stroke-width="1.4"/>
+        <path d="M210 111 H240 M256 111 H291" stroke="rgba(255,255,255,0.18)" stroke-width="1.4"/>
+        <path d="M291 111 H326" stroke="rgba(255,255,255,0.18)" stroke-width="1.4"/>
+        <path d="M133 132 V150" stroke="rgba(255,180,84,0.4)" stroke-width="1.4"/>
+        <path d="M101 260 V280" stroke="rgba(255,255,255,0.14)" stroke-width="1.2"/>
+
+        <!-- users -->
+        <circle cx="230" cy="330" r="16" fill="#151f34" stroke="rgba(51,214,192,0.5)"/>
+        <text x="216" y="335" fill="#33d6c0" font-family="IBM Plex Mono, monospace" font-size="10">users</text>
+        <path d="M230 314 V188" stroke="rgba(51,214,192,0.35)" stroke-width="1.4" stroke-dasharray="3 3"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- ABOUT -->
+  <section class="section" id="about">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">01 / about</span>
+          <h2>Grounded in fundamentals,<br>built for the cloud.</h2>
+        </div>
+      </div>
+      <div class="about-grid">
+        <div>
+          <p>I'm an Electronics & Communication Engineering graduate with a practical, infrastructure-first approach to cloud computing. My work centers on AWS — designing highly available, multi-tier architectures, configuring secure networking, and monitoring systems in production-like environments.</p>
+          <p>I have a strong foundation in cloud security, access management, and Linux system administration, built through self-directed projects that mirror real-world deployment patterns: load-balanced web tiers, Multi-AZ databases, least-privilege IAM policies, and CloudWatch-driven observability.</p>
+          <p>I'm currently completing the AWS Certified Solutions Architect – Associate (SAA-C03) certification and looking for an entry-level Cloud Support or Junior Cloud Engineer role where I can keep building on that foundation.</p>
+        </div>
+        <div class="facts">
+          <div class="fact">
+            <div class="k">location</div>
+            <div class="v">Delhi, India</div>
+          </div>
+          <div class="fact">
+            <div class="k">availability</div>
+            <div class="v">Immediate joiner · Open to relocation across India</div>
+          </div>
+          <div class="fact">
+            <div class="k">languages</div>
+            <div class="v">Tamil (native), English (professional), Hindi, Telugu (basic)</div>
+          </div>
+          <div class="fact">
+            <div class="k">focus</div>
+            <div class="v">AWS Cloud · Linux · Networking</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SKILLS -->
+  <section class="section" id="skills">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">02 / skills</span>
+          <h2>Technical skills</h2>
+        </div>
+        <p class="desc">Tools and concepts I've worked with hands-on, across cloud platforms, networking, and systems administration.</p>
+      </div>
+      <div class="skills-grid">
+        <div class="skill-block">
+          <h3><span class="ic"></span>Cloud &amp; AWS</h3>
+          <div class="chip-row">
+            <span class="chip">AWS</span><span class="chip">EC2</span><span class="chip">S3</span><span class="chip">IAM</span>
+            <span class="chip">VPC</span><span class="chip">EBS</span><span class="chip">RDS</span><span class="chip">CloudWatch</span>
+            <span class="chip">Route 53</span><span class="chip">AMI</span><span class="chip">Auto Scaling</span><span class="chip">Elastic Load Balancing</span>
+            <span class="chip">Web Hosting</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h3><span class="ic"></span>Networking</h3>
+          <div class="chip-row">
+            <span class="chip">TCP/IP</span><span class="chip">OSI Model</span><span class="chip">IP Addressing &amp; Subnetting</span>
+            <span class="chip">DNS</span><span class="chip">DHCP</span><span class="chip">NAT</span><span class="chip">HTTP/HTTPS</span>
+            <span class="chip">SSH</span><span class="chip">Routing Fundamentals</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h3><span class="ic"></span>Operating Systems</h3>
+          <div class="chip-row">
+            <span class="chip">Linux (Ubuntu/CentOS)</span><span class="chip">Windows Server Basics</span>
+            <span class="chip">Linux Commands</span><span class="chip">File Permissions</span><span class="chip">System Administration</span>
+          </div>
+        </div>
+        <div class="skill-block">
+          <h3><span class="ic"></span>Cloud Security</h3>
+          <div class="chip-row">
+            <span class="chip">IAM Policies</span><span class="chip">Security Groups</span><span class="chip">NACLs</span>
+            <span class="chip">MFA</span><span class="chip">Access Control</span><span class="chip">Encryption Fundamentals</span>
+          </div>
+        </div>
+        <div class="skill-block" style="grid-column: span 2;">
+          <h3><span class="ic"></span>Programming &amp; Tools</h3>
+          <div class="chip-row">
+            <span class="chip">Python (basics)</span><span class="chip">Docker (basics)</span><span class="chip">Git</span>
+            <span class="chip">GitHub</span><span class="chip">VMware Workstation</span><span class="chip">Oracle VirtualBox</span>
+            <span class="chip">MS Office 365</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PROJECTS -->
+  <section class="section" id="projects">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">03 / projects</span>
+          <h2>Hands-on cloud projects</h2>
+        </div>
+        <p class="desc">Self-directed builds that mirror the architecture patterns used in production AWS environments.</p>
+      </div>
+
+      <div class="project">
+        <div>
+          <div class="p-meta">01 · AWS</div>
+          <h3>3-Tier Highly Available Web Application</h3>
+        </div>
+        <div>
+          <ul>
+            <li>Designed and deployed a 3-tier architecture (web, application, database) across multiple Availability Zones for high availability and fault tolerance.</li>
+            <li>Configured an Application Load Balancer and Auto Scaling Group to distribute traffic and maintain uptime across EC2 web instances.</li>
+            <li>Deployed Amazon RDS in Multi-AZ mode within private subnets, restricting access using Security Groups for a secure database layer.</li>
+            <li>Built a custom VPC with public and private subnets, a NAT Gateway, and route tables to enable secure multi-tier communication.</li>
+          </ul>
+          <div class="tags"><span>VPC</span><span>ALB</span><span>Auto Scaling</span><span>RDS Multi-AZ</span><span>Security Groups</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div>
+          <div class="p-meta">02 · AWS</div>
+          <h3>VPC Infrastructure &amp; Network Configuration</h3>
+        </div>
+        <div>
+          <ul>
+            <li>Designed a custom AWS VPC with public and private subnets spread across Availability Zones.</li>
+            <li>Configured an Internet Gateway, route tables, Security Groups, and NACLs for controlled network access.</li>
+            <li>Deployed an EC2 Linux instance and verified connectivity using core Linux networking commands.</li>
+          </ul>
+          <div class="tags"><span>VPC</span><span>Internet Gateway</span><span>NACLs</span><span>EC2 Linux</span></div>
+        </div>
+      </div>
+
+      <div class="project">
+        <div>
+          <div class="p-meta">03 · AWS</div>
+          <h3>S3 Storage &amp; CloudWatch Monitoring</h3>
+        </div>
+        <div>
+          <ul>
+            <li>Created and configured an Amazon S3 bucket for object storage with versioning enabled.</li>
+            <li>Applied IAM permissions following the principle of least privilege.</li>
+            <li>Set up CloudWatch monitoring and alarms to track EC2 resource utilization.</li>
+          </ul>
+          <div class="tags"><span>S3</span><span>IAM</span><span>CloudWatch</span><span>Monitoring</span></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- EDUCATION -->
+  <section class="section" id="education">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">04 / education</span>
+          <h2>Education</h2>
+        </div>
+      </div>
+      <div class="timeline">
+        <div class="t-item">
+          <div class="yr">2022 — 2026</div>
+          <h3>B.E., Electronics &amp; Communication Engineering</h3>
+          <div class="school">AVS Engineering College, Anna University</div>
+          <span class="cgpa">CGPA 8.3 / 10 (83.6%)</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CERTIFICATIONS -->
+  <section class="section" id="certifications">
+    <div class="wrap">
+      <div class="section-head">
+        <div>
+          <span class="section-tag">05 / certifications</span>
+          <h2>Certifications &amp; achievements</h2>
+        </div>
+      </div>
+      <div class="cert-grid">
+        <div class="cert pending">
+          <div class="badge">☁</div>
+          <div>
+            <h4>AWS Certified Solutions Architect – Associate (SAA-C03)</h4>
+            <div class="org">Amazon Web Services</div>
+            <span class="status-pill progress">In progress</span>
+          </div>
+        </div>
+        <div class="cert">
+          <div class="badge">✓</div>
+          <div>
+            <h4>Data Structures and Algorithms (DSA) Workshop</h4>
+            <div class="org">Finest Coder</div>
+            <span class="status-pill done">Completed</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="section" id="contact">
+    <div class="wrap">
+      <div class="contact-wrap">
+        <div>
+          <span class="section-tag">06 / contact</span>
+          <h2>Let's talk cloud infrastructure.</h2>
+          <p>Immediate joiner, open to relocating anywhere in India. Reach out about Cloud Support, Junior Cloud Engineer, or infrastructure roles — I'll get back to you quickly.</p>
+          <a href="mailto:akash967757@gmail.com" class="btn btn-primary">Email me</a>
+        </div>
+        <div class="contact-list">
+          <div class="contact-row">
+            <div>
+              <div class="k">email</div>
+              <div class="v">akash967757@gmail.com</div>
+            </div>
+            <a href="mailto:akash967757@gmail.com" aria-label="Email">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12l-10 4L2 12M2 6l10 6 10-6M2 6h20v12H2V6z"/></svg>
+            </a>
+          </div>
+          <div class="contact-row">
+            <div>
+              <div class="k">phone</div>
+              <div class="v">+91 63859 23497</div>
+            </div>
+            <a href="tel:+916385923497" aria-label="Call">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45c.9.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </a>
+          </div>
+          <div class="contact-row">
+            <div>
+              <div class="k">linkedin</div>
+              <div class="v">linkedin.com/in/akash-a-95bb6b292</div>
+            </div>
+            <a href="https://www.linkedin.com/in/akash-a-95bb6b292" target="_blank" rel="noopener" aria-label="LinkedIn">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+            </a>
+          </div>
+          <div class="contact-row">
+            <div>
+              <div class="k">location</div>
+              <div class="v">Delhi, India</div>
+            </div>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="wrap footer-inner">
+    <span>© 2026 Akash A. Built with intent, not templates.</span>
+    <a href="Akash_A_Resume_ATS.pdf" download>Download resume ↓</a>
+  </div>
+</footer>
+
+<script>
+  const toggle = document.getElementById('navToggle');
+  const links = document.getElementById('navLinks');
+  toggle.addEventListener('click', () => {
+    links.classList.toggle('open');
+  });
+  links.querySelectorAll('a').forEach(a => {
+    a.addEventListener('click', () => links.classList.remove('open'));
+  });
+</script>
+
+</body>
+</html>
